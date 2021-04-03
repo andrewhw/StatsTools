@@ -1,0 +1,366 @@
+%% $Id: 014-Summary.tex,v 1.1 2005/04/05 15:07:55 andrew Exp 2
+
+\documentclass{beamer}
+\mode<presentation>{\usetheme{Warsaw}\usecolortheme{crane}}
+
+
+\usepackage[latin1]{inputenc}
+\usepackage{helvet}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{paralist}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{fancybox}
+\usepackage{cancel}
+\usepackage{alphalph}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage{pdfcomment}
+\usepackage{wasysym}
+\usepackage{ulem}
+\usepackage{svg}
+\usepackage[weather]{ifsym}
+\usepackage{colortbl}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\usepackage[T1]{fontenc}
+\usepackage[default]{gillius}
+
+\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{burntumber}{rgb}{0.55, 0.2, 0.14} %0.8,0.7,0.0}
+\definecolor{orchid}{rgb}{0.294, 0, 0.510} %0.8,0.7,0.0}	51,51,178
+
+
+% set up symbol based footnotes
+\makeatletter
+\newcommand*{\fnsymbolsingle}[1]{%
+\ensuremath{%
+    \ifcase#1%
+    \or *%
+    \or \dagger
+    \or \ddagger
+    %\or \mathframetitle
+    %\or \mathparagraph
+    %\or \triangleup
+    \or \triangleleft
+    \or \bowtie
+    \or \oplus
+    %\or \maltese
+    \else
+    \@ctrerr
+    \fi
+}%
+}
+\newalphalph{\fnsymbolwrap}[wrap]{\fnsymbolsingle}{}
+\makeatother
+\renewcommand\thefootnote{\fnsymbolwrap{\value{footnote}}}
+
+
+
+\newcommand{\eg}{\textit{e.g.},\xspace} % some Latin abreviations in italic
+\newcommand{\ie}{\textit{i.e.};\xspace}
+\newcommand{\aka}{\textit{a.k.a.}\xspace}
+\newcommand{\etc}{\textit{etc}.\@\xspace}
+\newcommand{\theref}{\ensuremath{\dot{.~.}~}}
+
+\newcommand{\key}[1]{\textcolor{orchid}{{\bf #1}}}
+
+\newcommand{\kq}[1]{\textcolor{burntumber}{$\mathcal{Q}$: \emph{#1}}}
+
+
+%	----------------------------------------------------------
+
+\title{Testing for Significant Differences Between Distributions}
+\subtitle{A Crib Sheet}
+
+\author{Dr.~Andrew Hamilton-Wright}
+\institute{School of Computer Science\\
+University of Guelph}
+
+\date{\today}
+
+
+
+\begin{document}
+
+% Get rid of beamer's default navigation decoration
+\setbeamertemplate{sidebar right}{}
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+\begin{frame}
+\frametitle{The overall question}
+If you have done an experiment and collected some sets of
+measures from two or more experimental setups, a common
+question is:
+\begin{quote}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}
+\end{quote}
+
+This set of slides gives you some advice on how to proceed to answer
+this question.
+
+More detailed answers can be found in excellent online sources.  My
+two favourites are these -- they both give excellent explanations:
+
+\hangindent=3em
+\textcolor{orchid}{McDonald, J.H. (2014): \emph{Handbook of Biological Statistics} (3rd ed.).
+		Sparky House Publishing, Baltimore, Maryland.
+		\url{http://www.biostathandbook.com/index.html}}
+
+\hangindent=3em
+\textcolor{orchid}{NIST/SEMATECH (2013): \emph{e-Handbook of Statistical Methods}, \url{http://www.itl.nist.gov/div898/handbook/}}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Preliminary Tools}
+Some questions will depend on the answers to one or both of
+these questions, as applied to each of your sets of points:
+\begin{itemize}
+\item \kq{Is this set of points normally distributed?}
+	\pause
+	\begin{itemize}
+	\item \key{Shapiro-Wilk} (the most sensitive)%
+			\footnote{\textcolor{grey}{Razali \& Wah (2011):
+					Power comparisons of Shapiro-Wilk, Kolmogorov-Smirnov, Lilliefors and Anderson-Darling Tests
+					\emph{Journal of  Statistical Modelling and Analytics} 2(1):21--33. ISBN:~978-967-363-157-5\\ \href{https://www.researchgate.net/profile/Bee-Yap/publication/267205556_Power_Comparisons_of_Shapiro-Wilk_Kolmogorov-Smirnov_Lilliefors_and_Anderson-Darling_Tests/links/5477245b0cf29afed61446e1/Power-Comparisons-of-Shapiro-Wilk-Kolmogorov-Smirnov-Lilliefors-and-Anderson-Darling-Tests.pdf}{Link via ResearchGate (Apr 2021)}}}
+	\item \key{Anderson-Darling},
+	\item \key{Kolmogorov-Smirnov}
+	\end{itemize}
+	\vspace{1em}\pause
+\item \kq{Are the variances between two of my sets of points different?}
+	\pause
+	\begin{itemize}
+	\item \key{$F$-test (of equality of variances)}
+	\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Statistics: \visible<6->{Independent two-sample $t$-test}}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+If all of the following are true:
+\begin{itemize}
+\item you have \key{exactly two} distributions of data (sets of points), \pause
+\item and they are \key{normally distributed} \pause
+\item and your observations are \key{independent} \pause
+\item and your variances are equal (\aka \key{homoscedasticity}) \pause
+\end{itemize}
+then \pause
+\begin{itemize}
+\item you can use the \key{(independent two-sample) $t$-test}
+to answer your question.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Statistics: \visible<2->{ANOVA}}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+If all of the following are true:
+\begin{itemize}
+\item you have \key{\bf more than two} distributions of data (sets of points),
+\item and they are \key{normally distributed} 
+\item and your observations are \key{independent}
+\item and your variances are equal (\aka \key{homoscedasticity}) 
+\item and your question is ``\kq{do these samples come
+		from distributions with the same mean}?''
+\end{itemize}
+then \pause
+\begin{itemize}
+\item you can use \key{ANOVA} (Analysis Of VARiance)
+\end{itemize}
+but \pause
+\begin{itemize}
+\item this only tells you that \emph{one or more} of the means of
+	your distributions is different from the others, and doesn't tell
+	you which one.
+\item \pause You run a \key{post hoc test} to determine that.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Statistics: \visible<5->{Paired sample $t$-test}}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+If all of the following are true:
+\begin{itemize}
+\item you collected your points in \key{paired observations}
+from a set of subjects or entities, so that you have \key{two measures}
+from the \key{same subject} under two conditions, and you want to know
+whether the change in condition produced a change in measurement
+between the \key{paired measures}
+\item and \key{these differences} are \key{normally distributed} \pause
+\item and your observations \key{between subjects} are \key{independent} \pause
+\item and your question is ``\kq{do the differences described by
+		these pairs have a non-zero mean}?'' (\ie ``\kq{Is there
+			a difference between these paired values}?)
+\end{itemize}
+then \pause
+\begin{itemize}
+\item you can use the \key{(paired) $t$-test}
+to answer your question.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Statistics: Paired sample $t$-test}
+Here is something that people frequently get mixed up for
+the paired $t$-test \dots
+
+\begin{block}{The Normality requirement only applies \key{to the differences}}
+Note that only the \key{differences} calculated between the pairs
+need to be normally distributed -- the distributions of the
+unpaired points \emph{does not matter at all}.
+
+This is because the paired $t$-test \key{converts the set of differences
+into a single distribution}, and uses a $t$-test to determine if \key{this
+distribution} is non-zero.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Bonferroni correction}
+If you have point sets
+$\mathcal{A}$,
+$\mathcal{B}$,
+$\mathcal{C}$,
+and want to make \key{multiple comparisons}, such as
+$\mathcal{A}$:$\mathcal{B}$ and
+$\mathcal{B}$:$\mathcal{C}$, then
+use a correction such as the \key{Bonferroni correction}:
+\begin{itemize}
+\item used to correct the estimation done when multiple inferences
+		are made on the same data (\aka the ``\key{multiple comparisons} problem)
+\pause
+\item built into most statistical packages, but math is trivial
+\item we just:
+	\begin{itemize}
+	\item divide our $\alpha$ by the number of tests we are doing (making it lower), or equivalently
+	\pause
+	\item multiply our $p$ by the number of tests we are doing (making them higher).
+	\end{itemize}
+\end{itemize}
+\pause
+\begin{block}{Why do we do this?}
+This decreases our likelihood of saying that any test has produced
+		a statistically signficant result --- because we are attempting
+		to control for the likelihood of finding such a result by
+		random chance.
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Statistics: Non-parametric tests}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+\begin{itemize}
+\item If your data are \key{NOT normally distributed}
+	\begin{itemize}
+	\item or your variance does not conform to your constraints
+	\end{itemize}
+\item but your observations are \key{independent}
+\end{itemize}
+then you can use:\pause
+\begin{itemize}
+	\item \key{Mann-Whitney-Wilcoxon} (MWW)\footnote{
+			\visible<3->{This is also called the ``\key{Mann-Whitney $U$ test}'' or ``\key{Wilcoxon-rank-sum}'' ---
+			but note that the ``\sout{\key{Wilcoxon signed-rank}}'' test is a different beastie (more on next slide).}}
+		   	if there are \key{two} distributions
+		(analogue of the $t$-test, but with no model), \visible<3->{or}
+	\item \visible<4->{Kruskal-Wallis (KW) if there are \key{more than two}.}
+\end{itemize}
+\vspace{1em}
+%\begin{block}{KW {\it post hoc} strategies}
+\visible<5->{Note that KW test functions like a \key{{\bf one-way} ANOVA}, \pause
+and to determine which pairs differ, you can use MWW \emph{without}
+the \key{Bonferroni correction}.}
+%\end{block}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Non-independent tests}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\vspace{1em}
+
+If your data are \key{NOT independent} then 
+\begin{itemize}
+\item if you have \key{two} distributions
+		(and \theref would have considered \key{Mann-Whitney-Wilcoxon})
+	%\footnote{(\aka \key{Wilcoxon rank sum}/\key{Mann-Whitney $U$ test})}
+		then \pause
+			use the \key{Wilcoxon signed-rank} test
+		and \pause
+\item if you have \key{more than two} distrubutions
+		(and would have considered \key{Kruskal-Wallis}), then \pause
+		use the \key{Friedman} test instead.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Summary: Which test to use?}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\vspace{1em}
+
+\begin{center}
+\begin{tabular}{cccc@{}c}
+{\it Independence}
+		& {\it Normality}
+			& {\it $N$ dist.}
+				& $\rightarrow$ & {\it Use} \\
+\hline
+\hline
+\multirow{4}{*}{Yes}
+		&	\multirow{2}{*}{Yes}
+			&	2
+				&& \visible<2->{\key{$t$-test}}	\\
+		&			
+			&	3 or more
+				&& \visible<3->{\key{ANOVA}}		\\
+		\cline{2-5}
+		&	\multirow{2}{*}{No}
+			&	2
+				&\multicolumn{2}{c}{\visible<4->{\key{Mann-Whitney-Wilcoxon}}%
+					\footnote{\visible<5->{\aka
+							\key{Mann-Whitney $U$ test} or
+							\key{Wilcoxon rank sum} --
+							Wilcoxon was a very busy person}}}	
+\\
+		&			
+			&	3 or more
+				&\multicolumn{2}{c}{\visible<6->{\key{Kruskal-Wallis}}}		\\
+\hline
+\multirow{2}{*}{\visible<7->{No}}
+		& \multirow{2}{*}{\visible<7->{\textcolor{grey}{n/a}}}
+			&	\visible<7->{2}
+				&\multicolumn{2}{c}{\visible<9->{\key{Wilcoxon signed-rank}}} \\
+		&			
+			&	\visible<7->{3 or more}
+				&\multicolumn{2}{c}{\visible<9->{\key{Friedman}}} \\
+\hline
+\hline
+\\[-0.5em]
+\visible<10->{Yes}
+		&\visible<10->{Yes}
+			&\visible<10->{Pairs}
+				& \multicolumn{2}{c}{\visible<10->{\key{paired $t$-test}}}
+\\[0.5em]
+\hline
+\hline
+
+\end{tabular}
+\end{center}
+\end{frame}
+
+
+
+
+
+\end{document}
