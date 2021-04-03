@@ -89,6 +89,7 @@ University of Guelph}
 \begin{document}
 
 % Get rid of beamer's default navigation decoration
+\setbeamertemplate{footline}[frame number]
 \setbeamertemplate{sidebar right}{}
 
 
@@ -214,7 +215,7 @@ to answer your question.
 
 
 \begin{frame}
-\frametitle{Statistics: Paired sample $t$-test}
+\frametitle{Statistics: Paired sample $t$-test}\label{caveat:pairs}
 Here is something that people frequently get mixed up for
 the paired $t$-test \dots
 
@@ -349,7 +350,7 @@ If your data are \key{NOT independent} then
 \hline
 \\[-0.5em]
 \visible<10->{Yes}
-		&\visible<10->{Yes}
+		&\visible<10->{Yes\footnote{\textcolor{grey}{Of differences only.  See note on page \pageref{caveat:pairs}.}}}
 			&\visible<10->{Pairs}
 				& \multicolumn{2}{c}{\visible<10->{\key{paired $t$-test}}}
 \\[0.5em]
