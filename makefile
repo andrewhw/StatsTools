@@ -9,6 +9,7 @@ LATEX		= pdflatex
 TARGET=ChoosingAStatisticalTestToDiscernDistributions
 
 all : ${TARGET}.pdf ${TARGET}-handout.pdf
+	- rm -f ${TARGET}-handout.tex
 
 ${TARGET}-handout.tex : ${TARGET}.tex
 	echo "%%" > ${TARGET}-handout.tex
