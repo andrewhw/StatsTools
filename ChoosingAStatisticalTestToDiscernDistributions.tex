@@ -31,7 +31,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[default]{gillius}
 
-\definecolor{grey}{rgb}{0.6,0.6,0.6}
+\definecolor{grey}{rgb}{0.5,0.5,0.5}
 \definecolor{burntumber}{rgb}{0.55, 0.2, 0.14} %0.8,0.7,0.0}
 \definecolor{orchid}{rgb}{0.294, 0, 0.510} %0.8,0.7,0.0}	51,51,178
 
@@ -132,14 +132,14 @@ these questions, as applied to each of your sets of points:
 	\pause
 	\begin{itemize}
 	\item \key{Shapiro-Wilk} (the most sensitive)%
-			\footnote{\textcolor{grey}{Razali \& Wah (2011):
+			\footnote{\visible<3->{\textcolor{grey}{Razali \& Wah (2011):
 					Power comparisons of Shapiro-Wilk, Kolmogorov-Smirnov, Lilliefors and Anderson-Darling Tests
-					\emph{Journal of  Statistical Modelling and Analytics} 2(1):21--33. ISBN:~978-967-363-157-5\\ \href{https://www.researchgate.net/profile/Bee-Yap/publication/267205556_Power_Comparisons_of_Shapiro-Wilk_Kolmogorov-Smirnov_Lilliefors_and_Anderson-Darling_Tests/links/5477245b0cf29afed61446e1/Power-Comparisons-of-Shapiro-Wilk-Kolmogorov-Smirnov-Lilliefors-and-Anderson-Darling-Tests.pdf}{Link via ResearchGate (Apr 2021)}}}
+					\emph{Journal of  Statistical Modelling and Analytics} 2(1):21--33. ISBN:~978-967-363-157-5\\ \href{https://www.researchgate.net/profile/Bee-Yap/publication/267205556_Power_Comparisons_of_Shapiro-Wilk_Kolmogorov-Smirnov_Lilliefors_and_Anderson-Darling_Tests/links/5477245b0cf29afed61446e1/Power-Comparisons-of-Shapiro-Wilk-Kolmogorov-Smirnov-Lilliefors-and-Anderson-Darling-Tests.pdf}{Link via ResearchGate (Apr 2021)}}}}
 	\item \key{Anderson-Darling},
 	\item \key{Kolmogorov-Smirnov}
 	\item a \key{Q-Q plot} (quartile-quartile plot)
 	\end{itemize}
-	\vspace{1em}\pause
+	\vspace{1em}\pause\pause
 \item \kq{Are the variances between two of my sets of points different?}
 	(\aka \kq{Is my data homoscedastic?})
 	\pause
@@ -150,28 +150,35 @@ these questions, as applied to each of your sets of points:
 \end{frame}
 
 \begin{frame}
-\frametitle{Statistics: \visible<6->{Independent two-sample $t$-test}}
+\frametitle{Statistics: \visible<7->{Independent two-sample $t$-test}}
 \kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
-If all of the following are true:
-\begin{itemize}
+\vspace{0.5em}
+Iff\footnote{\visible<2->{``if and only if''}} {\bf all} of the following are true:
+\begin{itemize}\pause\pause
 \item you have \key{exactly two} distributions of data (sets of points), \pause
 \item and they are \key{normally distributed} \pause
 \item and your observations are \key{independent} \pause
-\item and your variances are equal (\aka \key{homoscedasticity}) \pause
+\item and your variances are equal
+	\begin{itemize}
+	\item[] (\aka you have \key{homoscedasticity})
+	\end{itemize}
 \end{itemize}
 then \pause
 \begin{itemize}
 \item you can use the \key{(independent two-sample) $t$-test}
 to answer your question.
 \end{itemize}
+\pause
+Otherwise \dots
 \end{frame}
 
 \begin{frame}
 \frametitle{Statistics: \visible<2->{ANOVA}}
 \kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
-If all of the following are true:
+\vspace{0.5em}
+Iff all of the following are true:
 \begin{itemize}
-\item you have \key{\bf more than two} distributions of data (sets of points),
+\item you have \key{\underline{\bf more than} {\bf two}} distributions of data (sets of points),
 \item and they are \key{normally distributed} 
 \item and your observations are \key{independent}
 \item and your variances are equal (\aka \key{homoscedasticity}) 
@@ -190,8 +197,10 @@ but \pause
 \end{frame}
 
 \begin{frame}
-\frametitle{Statistics: \visible<5->{Paired sample $t$-test}}
+\frametitle{Statistics: \visible<4->{Paired sample $t$-test}}
 \kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+\pause
+\vspace{0.5em}
 If all of the following are true:
 \begin{itemize}
 \item you collected your points in \key{paired observations}
@@ -199,8 +208,8 @@ from a set of subjects or entities, so that you have \key{two measures}
 from the \key{same subject} under two conditions, and you want to know
 whether the change in condition produced a change in measurement
 between the \key{paired measures}
-\item and \key{these differences} are \key{normally distributed} \pause
-\item and your observations \key{between subjects} are \key{independent} \pause
+\item and \key{these \underline{differences}} are \key{normally distributed} \pause
+\item and your observations \key{between subjects} are \key{independent}
 \end{itemize}
 then \pause
 \begin{itemize}
@@ -213,16 +222,20 @@ to answer your question.
 \begin{frame}
 \frametitle{Statistics: Paired sample $t$-test}\label{caveat:pairs}
 Here is something that people frequently get mixed up for
-the paired $t$-test \dots
+the \key{paired $t$-test} \dots
+\vspace{2em}
 
 \begin{block}{The Normality requirement only applies \key{to the differences}}
+\vspace{1em}
 Note that only the \key{differences} calculated between the pairs
 need to be normally distributed -- the distributions of the
 unpaired points \emph{does not matter at all}.
+\vspace{1em}
 
 This is because the paired $t$-test \key{converts the set of differences
 into a single distribution}, and uses a $t$-test to determine if \key{this
 distribution} is non-zero.
+\vspace{1em}
 \end{block}
 \end{frame}
 
@@ -245,7 +258,7 @@ use a correction such as the \key{Bonferroni correction}:
 	\begin{itemize}
 	\item divide our $\alpha$ by the number of tests we are doing (making it lower), or equivalently
 	\pause
-	\item multiply our $p$ by the number of tests we are doing (making them higher).
+	\item multiply all our $p$ values by the number of tests we are doing (making them higher).
 	\end{itemize}
 \end{itemize}
 \pause
@@ -260,27 +273,29 @@ This decreases our likelihood of saying that any test has produced
 \begin{frame}
 \frametitle{Statistics: Non-parametric tests}
 \kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\\
+\vspace{0.5em}
 \begin{itemize}
-\item If your data are \key{NOT normally distributed}
+\item If your observations are \key{independent}
+\item but
 	\begin{itemize}
-	\item or your variances do not conform to your constraints
+	\item your data points are \key{NOT normally distributed} \underline{\it or}
+	\item your variances do not conform to your constraints \pause (or both)
 	\end{itemize}
-\item but your observations are \key{independent}
 \end{itemize}
 then you can use:\pause
 \begin{itemize}
 	\item \key{Mann-Whitney-Wilcoxon} (MWW)\footnote{
-			\visible<3->{This is also called the ``\key{Mann-Whitney $U$ test}'' or ``\key{Wilcoxon-rank-sum}'' ---
+			\visible<4->{This is also called the ``\key{Mann-Whitney $U$ test}'' or ``\key{Wilcoxon-rank-sum}'' ---
 			but note that the ``\sout{\key{Wilcoxon signed-rank}}'' test is a different beastie (more on next slide).}}
 		   	if there are \key{two} distributions
 		(analogue of the $t$-test, but with no model), \visible<3->{or}
-	\item \visible<4->{\key{Kruskal-Wallis} (KW) if there are \key{more than two}.}
+	\item \visible<5->{\key{Kruskal-Wallis} (KW) if there are \key{more than two}.}
 \end{itemize}
-\vspace{1em}
+\vspace{0.25em}
 %\begin{block}{KW {\it post hoc} strategies}
-\visible<5->{Note that KW test functions like a \key{{\bf one-way} ANOVA}, \pause
+\visible<6->{Note that KW test functions like a \key{{\bf one-way} ANOVA}, \pause
 and to determine which pairs differ, you can use 
-the \key{Dunn} test (some people will use MWW for this)}
+the \key{Dunn} test (some people will use MWW for this)}\vspace{0.5em}
 
 %\end{block}
 \end{frame}
@@ -305,8 +320,8 @@ If your data are \key{NOT independent} then
 \end{frame}
 
 \begin{frame}
-\frametitle{Summary: Which test to use?}
-\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\vspace{1em}
+\frametitle{Which test to use?  A nice summary}
+\kq{Is there a significant difference between the distributions represented by the points making up my data sets?}\vspace{0.25em}
 
 \begin{center}
 \begin{tabular}{cccc@{}c}
@@ -315,14 +330,13 @@ If your data are \key{NOT independent} then
 			& {\it $N$ dist.}
 				& $\rightarrow$ & {\it Use} \\
 \hline
-\hline
 \multirow{4}{*}{Yes}
 		&	\multirow{2}{*}{Yes}
 			&	2
 				&& \visible<2->{\key{$t$-test}}	\\
 		&			
 			&	3 or more
-				&& \visible<3->{\key{ANOVA}}		\\
+				&& \visible<3->{\key{ANOVA} + {\it post-hoc}}		\\
 		\cline{2-5}
 		&	\multirow{2}{*}{No}
 			&	2
@@ -334,12 +348,12 @@ If your data are \key{NOT independent} then
 \\
 		&			
 			&	3 or more
-				&\multicolumn{2}{c}{\visible<6->{\key{Kruskal-Wallis}}}		\\
+				&\multicolumn{2}{c}{\visible<6->{\key{Kruskal-Wallis} + \key{Dunn}}}		\\
 \hline
 \multirow{2}{*}{\visible<7->{No}}
 		& \multirow{2}{*}{\visible<7->{\textcolor{grey}{n/a}}}
 			&	\visible<7->{2}
-				&\multicolumn{2}{c}{\visible<9->{\key{Wilcoxon signed-rank}}} \\
+				&\multicolumn{2}{c}{\visible<8->{\key{Wilcoxon signed-rank}}} \\
 		&			
 			&	\visible<7->{3 or more}
 				&\multicolumn{2}{c}{\visible<9->{\key{Friedman}}} \\
@@ -347,13 +361,11 @@ If your data are \key{NOT independent} then
 \hline
 \\[-0.5em]
 \visible<10->{Yes}
-		&\visible<10->{Yes\footnote{\textcolor{grey}{Of differences only.  See note on page \pageref{caveat:pairs}.}}}
+		&\visible<10->{Yes\footnote{\textcolor{grey}{\visible<10->{Of differences only.  See note on page \pageref{caveat:pairs}.}}}}
 			&\visible<10->{Pairs}
 				& \multicolumn{2}{c}{\visible<10->{\key{paired $t$-test}}}
 \\[0.5em]
 \hline
-\hline
-
 \end{tabular}
 \end{center}
 \end{frame}
